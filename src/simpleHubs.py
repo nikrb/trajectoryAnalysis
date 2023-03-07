@@ -20,7 +20,7 @@ def normalize(densities):
     nd = []
     return [(d[0]/max_density[0], d[1]) for d in densities]
 
-def find_high_density_points(P, r, k):
+def hubs(P, r, k):
     densities = [(density(p, P, r), p) for p in P]
     densities.sort(reverse=True)
     high_density_points = []
@@ -37,6 +37,6 @@ P = [(30,40), (5,25), (10,12), (70,70), (50,30), (35,45)]
 r = 25
 k = 2
 
-H = find_high_density_points(P, r, k)
+H = hubs(P, r, k)
 
 print(H)
