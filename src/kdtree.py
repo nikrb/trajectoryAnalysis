@@ -1,9 +1,10 @@
-class KDNode:
-    def __init__(self, point, axis, left=None, right=None):
-        self.point = point
-        self.axis = axis
-        self.left = left
-        self.right = right
+import collections
+
+KDNode = collections.namedtuple("KDNode", ["point", "axis", "left", "right"])
+KDNode.__doc__ = """
+A Binary Tree (BT) with a node value, and left- and
+right-subtrees.
+"""
 
 def build_kdtree(points, depth=0):
     try:
@@ -83,7 +84,7 @@ P = [(1,2), (3,4), (5,6), (7,8), (9, 10)]
 # P =  [(1, 2), (3, 2), (4, 1), (3, 5), (5,6)]
 radius = 3
 printDistances(P, radius, single=(5,6))
-# neighbors = find_high_density_points(P,3,2)
 tree = build_kdtree(P)
+print(tree)
 neighbors = queryByRadius(tree, (5,6), radius)
 print(neighbors)
