@@ -40,7 +40,7 @@ def printDistances(points, radius, single=None):
                     print(f"Distance between {single} and {points[j]}: {dist:.2f}")
 
 
-def query(node, point, radius):
+def queryByRadius(node, point, radius):
     """
     Find all points in the KDTree within a given radius of a point.
 
@@ -72,10 +72,10 @@ def query(node, point, radius):
         neighbors = []
 
     if node.left is not None and point[node.axis] - radius <= node.point[node.axis]:
-        neighbors += query(node.left, point, radius)
+        neighbors += queryByRadius(node.left, point, radius)
 
     if node.right is not None and point[node.axis] + radius >= node.point[node.axis]:
-        neighbors += query(node.right, point, radius)
+        neighbors += queryByRadius(node.right, point, radius)
 
     return neighbors
 
@@ -85,5 +85,5 @@ radius = 3
 printDistances(P, radius, single=(5,6))
 # neighbors = find_high_density_points(P,3,2)
 tree = build_kdtree(P)
-neighbors = query(tree, (5,6), radius)
+neighbors = queryByRadius(tree, (5,6), radius)
 print(neighbors)
