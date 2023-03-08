@@ -96,6 +96,7 @@ def hubs( densities, k, r, include_densities = False):
     # Sort the densities in descending order
     densities.sort(reverse=True)
     hubs = [densities[0]]
+    densities.pop(0)
 
     for d, p in densities:
         if distance(p, hubs[-1][1]) >= r:
