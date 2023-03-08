@@ -3,6 +3,21 @@ import math
 def distance(p1, p2):
     return math.sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)
 
+def printDistances(points, radius, single=None):
+    if single == None:
+        for i in range(len(points)):
+            for j in range(i+1, len(points)):
+                dist = distance(points[i], points[j])
+                if dist <= radius:
+                    print(f"Distance between {points[i]} and {points[j]}: {dist:.2f}")
+    else:
+        for j in range(len(points)):
+            if points[j] != single:
+                dist = distance(single, points[j])
+                if dist <= radius:
+                    print(f"Distance between {single} and {points[j]}: {dist:.2f}")
+
+
 # point is x,y tuple, points a list, r radius
 def density(point, points, r):
     # Computes the density of a given point in P.
@@ -33,9 +48,13 @@ def hubs(P, r, k):
 
 
 # P = [(1,2), (3,4), (5,6), (7,8), (9, 10)]
-P = [(30,40), (5,25), (10,12), (70,70), (50,30), (35,45)]
-r = 25
-k = 2
+# P = [(30,40), (5,25), (10,12), (70,70), (50,30), (35,45)]
+# r = 25
+# k = 2
+# printDistances(P, r, single=(10,12))
+P = [(1, 2), (3, 2), (4, 1), (3, 5), (6, 7), (8, 7), (8, 9), (10, 10), (11, 9), (12, 10)]
+r = 3
+k = 3
 
 H = hubs(P, r, k)
 
