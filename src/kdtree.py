@@ -81,26 +81,28 @@ def queryByRadius(node, point, radius):
 
     return neighbors
 
-def hubs(points, r, k, include_densities=False):
-    # Build the KDTree from the set of points
-    kdtree = build_kdtree(points)
+def density(p): # kdtree, point, r):
+    neighbors = queryByRadius(kdtree, p, r)
+    density = len(neighbors)
+    return density
 
-    # Compute the density value for each point
+def calcDensities(kdtree, points, r):
     densities = []
-    for point in points:
-        neighbors = queryByRadius(kdtree, point, r)
-        density = len(neighbors)
-        densities.append((density, point))
+    for p in points:
+        densities.append((density(p), p))
+    return densities
 
+def hubs( densities, k, r, include_densities = False):
     # Sort the densities in descending order
     densities.sort(reverse=True)
+    hubs = [densities[0]]
+    densities.pop(0)
 
-    # Extract the top k high-density points as hubs
-    if include_densities:
-        hubs = [(point, density) for density, point in densities[:k]]
-    else:
-        hubs = [point for density, point in densities[:k]]
-
+    for d, p in densities:
+        if distance(p, hubs[-1][1]) >= r:
+            hubs.append((d, p))
+            if len(hubs) == k:
+                break
     return hubs
 
 # test neighbours by radius
@@ -114,18 +116,27 @@ def hubs(points, r, k, include_densities=False):
 # print(neighbors)
 
 
-#P = [(1,2), (3,4), (5,6), (7,8), (9, 10)]
+points = [(1,2), (3,4), (5,6), (7,8), (9, 10)]
+r = 3
+k = 2
+kdtree = build_kdtree(points)
+densities = calcDensities(kdtree, points, r)
+H = hubs(densities, k, r)
+print(H)
+
+# H = hubs(points, r, k,True)
+# print(H)
 # P =  [(1, 2), (3, 2), (4, 1), (3, 5), (5,6)]
 # radius = 3
 # H = hubs(P, 3, 2)
 # print(H)
 
 # test 2
-points = [(1, 2), (3, 2), (4, 1), (3, 5), (6, 7), (8, 7), (8, 9), (10, 10), (11, 9), (12, 10)]
-r = 3
-k = 3
+# points = [(1, 2), (3, 2), (4, 1), (3, 5), (6, 7), (8, 7), (8, 9), (10, 10), (11, 9), (12, 10)]
+# r = 3
+# k = 3
 # printDistances(points, 100000, single=(11,9))
 # tree = build_kdtree(points)
 # print(queryByRadius(tree, (11,9), r))
-H = hubs(points, r, k,True)
-print(H)
+# H = hubs(points, r, k,True)
+# print(H)
