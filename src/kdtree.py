@@ -81,15 +81,15 @@ def queryByRadius(node, point, radius):
 
     return neighbors
 
-def density(kdtree, point, r):
-    neighbors = queryByRadius(kdtree, point, r)
+def density(p): # kdtree, point, r):
+    neighbors = queryByRadius(kdtree, p, r)
     density = len(neighbors)
     return density
 
 def calcDensities(kdtree, points, r):
     densities = []
     for p in points:
-        densities.append((density(kdtree, p, r), p))
+        densities.append((density(p), p))
     return densities
 
 def hubs( densities, k, r, include_densities = False):
