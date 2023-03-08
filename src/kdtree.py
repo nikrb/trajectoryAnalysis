@@ -81,7 +81,7 @@ def queryByRadius(node, point, radius):
 
     return neighbors
 
-def density(p): # kdtree, point, r):
+def density(p):
     neighbors = queryByRadius(kdtree, p, r)
     density = len(neighbors)
     return density
